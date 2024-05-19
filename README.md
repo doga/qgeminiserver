@@ -26,7 +26,7 @@ Heavily inspired by [oak](https://github.com/oakserver/oak) and [denoscuri](http
 ### Your first app
 Create minimal application in `app.ts`:
 ```typescript
-import { Application } from 'https://deno.land/x/qgeminiserver@1.3.2/mod.ts'
+import { Application } from 'https://deno.land/x/qgeminiserver@1.3.3/mod.ts'
 
 const app = new Application({
   keyFile: '/path/to/key.pem',
@@ -127,7 +127,7 @@ See `examples` folder.
 ### serveStatic
 Serves static files from a directory to specified URL
 ```typescript
-import { Application, serveStatic } from 'https://deno.land/x/qgeminiserver@1.3.2/mod.ts'
+import { Application, serveStatic } from 'https://deno.land/x/qgeminiserver@1.3.3/mod.ts'
 
 const app = new Application({
   keyFile: '/path/to/key.pem',
@@ -151,7 +151,7 @@ import {
   Application,
   handleRoutes,
   Route,
-} from 'https://deno.land/x/qgeminiserver@1.3.2/mod.ts'
+} from 'https://deno.land/x/qgeminiserver@1.3.3/mod.ts'
 
 const app = new Application({
   keyFile: '/path/to/key.pem',
@@ -191,7 +191,7 @@ import {
   handleRoutes,
   Redirect,
   Route,
-} from 'https://deno.land/x/qgeminiserver@1.3.2/mod.ts'
+} from 'https://deno.land/x/qgeminiserver@1.3.3/mod.ts'
 
 const app = new Application({
   keyFile: '/path/to/key.pem',
