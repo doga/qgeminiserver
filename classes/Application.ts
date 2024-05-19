@@ -38,8 +38,8 @@ export class Application <S extends State> {
       for await (const connection of this.server) {
         try {
           await this.handleConnection(connection)
-        } catch (error) {
-          console.log(error)
+        } catch (_error) {
+          // console.log(error)
         } 
       }
     }
