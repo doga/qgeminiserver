@@ -1,11 +1,13 @@
-import { Middleware, compose } from './Middleware.ts'
-import { Context } from './Context.ts'
-import { ResponseFailure } from './ResponseFailure.ts'
+import { Middleware, compose } from './Middleware.ts';
+import { Context } from './Context.ts';
+import { ResponseFailure } from './ResponseFailure.ts';
 
-export type Config = Omit<Deno.ListenTlsOptions, 'transport'>
-export type ConfigDefaults = Required<Pick<Config, 'hostname' | 'port'>>
-export type ConfigArgument = Partial<Pick<Config, 'hostname' | 'port'>>
-  & Required<Pick<Config, 'keyFile' | 'certFile'>>
+export type Config = Deno.ListenTlsOptions & Deno.TlsCertifiedKeyPem;
+export type ConfigDefaults = Required<Pick<Config, 'hostname' | 'port'>>;
+export type ConfigArgument = 
+  Partial<Pick<Config, 'hostname' | 'port'>>
+  & Required<Pick<Config, 'key' | 'cert'>>;
+
 // deno-lint-ignore no-explicit-any
 export type State = Record<string | number | symbol, any>
 
@@ -33,12 +35,12 @@ export class Application <S extends State> {
     this.isStarted = true
     console.log(`Listening on ${this.config.hostname}:${this.config.port}`)
     while (this.isStarted) {
-      try {
-        for await (const connection of this.server) {
+      for await (const connection of this.server) {
+        try {
           await this.handleConnection(connection)
-        }
-      } catch (error) {
-        console.log(error)
+        } catch (error) {
+          console.log(error)
+        } 
       }
     }
   }
@@ -58,17 +60,60 @@ export class Application <S extends State> {
   }
 
   private async handleConnection (connection: Deno.Conn): Promise<void> {
-    const buffer = new Uint8Array(1026)
-    const length = await connection.read(buffer)
-    if (!length) return void 0
-    const requestString = this.decoder.decode(buffer.subarray(0, length))
-    const ctx = new Context(this, requestString)
+    const 
+    crlf = '\r\n', // ends a request line
+    inputReader = connection.readable.getReader(); // https://docs.deno.com/examples/streaming-files
+    
+    let 
+    request = '',
+    done    = false;
+    
+    do {
+      const result = await inputReader.read();
+      done = result.done;
+      
+      if (result.value) {
+        request += this.decoder.decode(result.value);
+        if (request.indexOf(crlf) > 0) {
+          request = request.split(crlf)[0].trim();
+          break;
+        }
+      }
+    } while (!done);
+
+    const ctx = new Context(this, request);
+
     try {
       await this.compose()(ctx)
     } catch (_error) {
       ctx.response = new ResponseFailure()
     }
-    await connection.write(ctx.response.contents)
-    connection.close();
+
+    const outputWriter = connection.writable.getWriter(); 
+    await outputWriter.ready;
+
+    await outputWriter.write(ctx.response.contents)
+    try {
+      await outputWriter.close();
+    } catch (_error) {
+      // 
+    }
+    // connection.close();
   }
+
+  // private async handleConnection (connection: Deno.Conn): Promise<void> {
+  //   const buffer = new Uint8Array(1026)
+  //   const length = await connection.read(buffer)
+  //   if (!length) return void 0
+  //   const requestString = this.decoder.decode(buffer.subarray(0, length))
+  //   const ctx = new Context(this, requestString)
+  //   try {
+  //     await this.compose()(ctx)
+  //   } catch (_error) {
+  //     ctx.response = new ResponseFailure()
+  //   }
+  //   await connection.write(ctx.response.contents)
+  //   connection.close();
+  // }
+
 }
