@@ -1,4 +1,6 @@
-# qgeminiserver
+# ♊️ qgeminiserver
+
+[![JSR](https://jsr.io/badges/@arma/qgeminiserver)](https://jsr.io/@arma/qgeminiserver)
 
 A Deno+TypeScript framework for building [Geminispace](https://geminiquickst.art/) servers. This is a [Kaksik](https://github.com/sergetymo/kaksik) fork that brings bug-fixes and keeps away bit-rot.
 
