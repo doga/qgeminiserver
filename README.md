@@ -18,7 +18,7 @@ A Deno+TypeScript framework for building [Geminispace](https://geminiquickst.art
 Create minimal application in `app.ts`:
 
 ```typescript
-import { Application } from 'jsr:@arma/qgeminiserver@2.0.2/mod.mts';
+import { Application } from 'jsr:@arma/qgeminiserver@2.0.3';
 
 const 
 keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
@@ -57,7 +57,7 @@ All six line types are implemented:
 `Response.body` setter accepts Gemtext for convenience.
 
 ```typescript
-import { Application } from 'jsr:@arma/qgeminiserver@2.0.2/mod.mts';
+import { Application } from 'jsr:@arma/qgeminiserver@2.0.3';
 
 const 
 keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
@@ -132,7 +132,7 @@ See `examples` folder.
 Serves static files from a directory to specified URL
 
 ```typescript
-import { Application, serveStatic } from 'jsr:@arma/qgeminiserver@2.0.2/mod.mts';
+import { Application, serveStatic } from 'jsr:@arma/qgeminiserver@2.0.3';
 
 const 
 keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
@@ -159,7 +159,7 @@ import {
   Application,
   handleRoutes,
   Route,
-} from 'jsr:@arma/qgeminiserver@2.0.2/mod.mts'
+} from 'jsr:@arma/qgeminiserver@2.0.3'
 
 const 
 keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
@@ -203,7 +203,7 @@ import {
   handleRoutes,
   Redirect,
   Route,
-} from 'jsr:@arma/qgeminiserver@2.0.2/mod.mts'
+} from 'jsr:@arma/qgeminiserver@2.0.3'
 
 const 
 keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
