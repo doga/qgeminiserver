@@ -1,6 +1,6 @@
-import { State } from '../classes/Application.ts'
-import { Context } from '../classes/Context.ts'
-import { Route, RouteContext } from '../classes/Route.ts'
+import { State } from '../classes/Application.mts'
+import { Context } from '../classes/Context.mts'
+import { Route, RouteContext } from '../classes/Route.mts'
 
 export function handleRoutes <S extends State = Record<string, any>> (
   ...routes: Array<Route>

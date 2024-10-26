@@ -1,4 +1,4 @@
-import { Line } from './Line.ts'
+import { Line } from './Line.mts'
 
 export class LineListItem extends Line {
   private readonly text: string

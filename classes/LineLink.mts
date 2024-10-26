@@ -1,4 +1,4 @@
-import { Line } from './Line.ts'
+import { Line } from './Line.mts'
 
 export class LineLink extends Line {
   constructor (

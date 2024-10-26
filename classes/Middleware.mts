@@ -1,5 +1,5 @@
-import { State } from './Application.ts'
-import { Context } from './Context.ts'
+import { State } from './Application.mts'
+import { Context } from './Context.mts'
 
 export interface Middleware<S extends State, C extends Context<S>> {
   (context: C, next: () => Promise<void>): Promise<void> | void

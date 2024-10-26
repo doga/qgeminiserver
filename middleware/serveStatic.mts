@@ -1,10 +1,10 @@
-import { Context } from '../classes/Context.ts'
-import { State } from '../classes/Application.ts'
-import { Directory } from '../classes/Directory.ts'
-import { ResponseFailure } from '../classes/ResponseFailure.ts'
-import { ResponseNotFound } from '../classes/ResponseNotFound.ts'
+import { Context } from '../classes/Context.mts'
+import { State } from '../classes/Application.mts'
+import { Directory } from '../classes/Directory.mts'
+import { ResponseFailure } from '../classes/ResponseFailure.mts'
+import { ResponseNotFound } from '../classes/ResponseNotFound.mts'
 
-export function serveStatic <S extends State = Record<string, any>> (
+export function serveStatic <S extends State = Record<string, unknown>> (
   fromDirectory: string = './',
   toUrl: string = '/'
 ): (ctx: Context<S>, next: () => Promise<void>) => Promise<void> {
@@ -17,7 +17,8 @@ export function serveStatic <S extends State = Record<string, any>> (
           toUrl,
         ).response()
       } catch (e) {
-        switch (e.name) {
+        switch ((e as {name: string}).name) {
+        // switch (e.name) {
           case 'NotFound':
           case 'PermissionDenied':
             ctx.response = new ResponseNotFound()

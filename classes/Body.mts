@@ -1,4 +1,4 @@
-import { Gemtext } from './Gemtext.ts'
+import { Gemtext } from './Gemtext.mts'
 
 export class Body {
   public readonly contents: Uint8Array

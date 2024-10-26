@@ -1,4 +1,4 @@
-import { Line } from './Line.ts'
+import { Line } from './Line.mts'
 
 export class LinePreformattingToggle extends Line {
   private readonly altText?: string

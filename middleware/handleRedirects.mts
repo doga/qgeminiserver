@@ -1,6 +1,6 @@
-import { State } from '../classes/Application.ts'
-import { Context } from '../classes/Context.ts'
-import { Redirect } from '../classes/Redirect.ts'
+import { State } from '../classes/Application.mts'
+import { Context } from '../classes/Context.mts'
+import { Redirect } from '../classes/Redirect.mts'
 
 export function handleRedirects <S extends State = Record<string, any>> (
   ...redirects: Array<Redirect>

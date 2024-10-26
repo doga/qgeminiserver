@@ -2,12 +2,14 @@ import {
   Application,
   handleRoutes,
   Route,
-} from '../mod.ts'
+} from '../mod.mts'
 
-const app = new Application({
-  keyFile: '../cert/key.pem',
-  certFile: '../cert/cert.pem',
-})
+const 
+keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
+certPath = Deno.env.get('CERT_PATH') || '../cert/cert.pem',
+key      = await Deno.readTextFile(keyPath),
+cert     = await Deno.readTextFile(certPath),
+app      = new Application({key, cert});
 
 app.use(handleRoutes(
   new Route('/test', async (ctx) => {

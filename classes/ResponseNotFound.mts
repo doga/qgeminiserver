@@ -1,6 +1,6 @@
-import { Response } from './Response.ts'
-import { Header } from './Header.ts'
-import { StatusCode } from './StatusCode.ts'
+import { Response } from './Response.mts'
+import { Header } from './Header.mts'
+import { StatusCode } from './StatusCode.mts'
 
 export class ResponseNotFound extends Response {
   constructor() {

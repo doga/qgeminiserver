@@ -1,4 +1,4 @@
-import { StatusCode } from './StatusCode.ts'
+import { StatusCode } from './StatusCode.mts'
 
 export class Header {
   private encoder: TextEncoder

@@ -1,55 +1,52 @@
-# Kaksik
-Middleware library for creating applications for [Gemini](https://gemini.circumlunar.space) protocol
-on top of [Deno](https://deno.land) runtime, written in TypeScript.
+# qgeminiserver
 
-Heavily inspired by [oak](https://github.com/oakserver/oak) and [denoscuri](https://github.com/caranatar/denoscuri).
-
-## Feature roadmap
-- [x] Serve gemtext (out of the box, see [Gemtext usage](#gemtext-usage))
-- [x] Serve static files at configured URLs (via middleware, see [serveStatic](#servestatic))
-- [x] Serve programmable resources at configured URLs (via middleware, see [handleRoutes](#handleroutes))
-- [x] Serve redirect responses at configured URLs (via middleware, see [handleRedirects](#handleredirects))
-- [x] Document `Gemtext` usage
-- [ ] Serve gone responses at configured URLs (via middleware)
-- [ ] Improve `Response` class
-- [ ] -- 'Good enough' point --
-- [ ] *Propose yours by [filing an issue](https://github.com/sergetymo/kaksik/issues/new)*
+A Deno+TypeScript framework for building [Geminispace](https://geminiquickst.art/) servers. This is a [Kaksik](https://github.com/sergetymo/kaksik) fork that brings bug-fixes and keeps away bit-rot.
 
 ## Usage
+
 ### Prerequisites
-1. [Install](https://deno.land/#installation) Deno executable
-2. Obtain SSL certificates. You can generate self-signed ones using `openssl` command:
+
+1. [Install Deno](https://deno.com/)
+1. Obtain SSL certificates. You can generate self-signed ones using `openssl` command:
+
     ```bash
     openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
     ```
 
 ### Your first app
-Create minimal application in `app.ts`:
-```typescript
-import { Application } from 'https://deno.land/x/qgeminiserver@1.3.3/mod.ts'
 
-const app = new Application({
-  keyFile: '/path/to/key.pem',
-  certFile: '/path/to/cert.pem',
-})
+Create minimal application in `app.ts`:
+
+```typescript
+import { Application } from 'https://esm.sh/gh/doga/qgeminiserver@2.0.0/mod.mts';
+
+const 
+keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
+certPath = Deno.env.get('CERT_PATH') || '../cert/cert.pem',
+key      = await Deno.readTextFile(keyPath),
+cert     = await Deno.readTextFile(certPath),
+app      = new Application({key, cert});
 
 app.use(ctx => {
   ctx.response.body = '# Hello World!'
-})
+});
 
-await app.start()
+await app.start();
 ```
 
 Then run it:
+
 ```bash
 deno run --allow-net --allow-read app.ts
 ```
 
 ### Gemtext usage
+
 `Gemtext` class represents a `text/gemini` media type that is native to Gemini protocol
 (see chapter 5 of [spec](https://gemini.circumlunar.space/docs/specification.html)).
 It's a line-based text format, so essentially `Gemtext` is just an `Array<Line>` with helpers.
 All six line types are implemented:
+
 - [x] `LineText`
 - [x] `LineLink`
 - [x] `LinePreformattedToggle`
@@ -60,10 +57,14 @@ All six line types are implemented:
 `Response.body` setter accepts Gemtext for convenience.
 
 ```typescript
-const app = new Application({
-  keyFile: '/path/to/key.pem',
-  certFile: '/path/to/cert.pem',
-})
+import { Application } from 'https://esm.sh/gh/doga/qgeminiserver@2.0.0/mod.mts';
+
+const 
+keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
+certPath = Deno.env.get('CERT_PATH') || '../cert/cert.pem',
+key      = await Deno.readTextFile(keyPath),
+cert     = await Deno.readTextFile(certPath),
+app      = new Application({key, cert});
 
 app.use(ctx => {
   ctx.response.body = new Gemtext(
@@ -84,6 +85,7 @@ await app.start()
 ```
 
 Appending new lines and other `Gemtext` instances:
+
 ```typescript
 const content = new Gemtext(
   new LineHeading('Second page', 1),
@@ -120,30 +122,36 @@ content.append(
 ```
 
 ### Other examples
+
 See `examples` folder.
 
-
 ## Available middleware
-### serveStatic
-Serves static files from a directory to specified URL
-```typescript
-import { Application, serveStatic } from 'https://deno.land/x/qgeminiserver@1.3.3/mod.ts'
 
-const app = new Application({
-  keyFile: '/path/to/key.pem',
-  certFile: '/path/to/cert.pem',
-})
+### serveStatic
+
+Serves static files from a directory to specified URL
+
+```typescript
+import { Application, serveStatic } from 'https://esm.sh/gh/doga/qgeminiserver@2.0.0/mod.mts';
+
+const 
+keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
+certPath = Deno.env.get('CERT_PATH') || '../cert/cert.pem',
+key      = await Deno.readTextFile(keyPath),
+cert     = await Deno.readTextFile(certPath),
+app      = new Application({key, cert});
 
 app.use(serveStatic('./log/', '/gemlog/'))
 app.use(serveStatic('./public/'))
 
 await app.start()
 ```
+
 Beware of ordering of `serveStatic` middleware usages: more generic URLs should occur
 later that more specific, e.g., `/path/subpath/` must be before `/path/`.
 
-
 ### handleRoutes
+
 Runs specified async function when request path matches configured route.
 
 ```typescript
@@ -151,12 +159,14 @@ import {
   Application,
   handleRoutes,
   Route,
-} from 'https://deno.land/x/qgeminiserver@1.3.3/mod.ts'
+} from 'https://esm.sh/gh/doga/qgeminiserver@2.0.0/mod.mts'
 
-const app = new Application({
-  keyFile: '/path/to/key.pem',
-  certFile: '/path/to/cert.pem',
-})
+const 
+keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
+certPath = Deno.env.get('CERT_PATH') || '../cert/cert.pem',
+key      = await Deno.readTextFile(keyPath),
+cert     = await Deno.readTextFile(certPath),
+app      = new Application({key, cert});
 
 app.use(handleRoutes(
   new Route('/test', async (ctx) => {
@@ -183,7 +193,9 @@ await app.start()
 ```
 
 ### handleRedirects
+
 Sends either temporary or permanent redirect response when path matches configuration.
+
 ```typescript
 import {
   Application,
@@ -191,12 +203,14 @@ import {
   handleRoutes,
   Redirect,
   Route,
-} from 'https://deno.land/x/qgeminiserver@1.3.3/mod.ts'
+} from 'https://esm.sh/gh/doga/qgeminiserver@2.0.0/mod.mts'
 
-const app = new Application({
-  keyFile: '/path/to/key.pem',
-  certFile: '/path/to/cert.pem',
-})
+const 
+keyPath  = Deno.env.get('KEY_PATH')  || '../cert/key.pem',
+certPath = Deno.env.get('CERT_PATH') || '../cert/cert.pem',
+key      = await Deno.readTextFile(keyPath),
+cert     = await Deno.readTextFile(certPath),
+app      = new Application({key, cert});
 
 app.use(handleRedirects(
   new Redirect('/short', '/long-very-long-url', true),
@@ -212,5 +226,16 @@ app.use(handleRoutes(
 await app.start()
 ```
 
-## Trivia
-"Kaksik" means "twin" in Estonian.
+## Feature roadmap
+
+- [x] Serve gemtext (out of the box, see [Gemtext usage](#gemtext-usage))
+- [x] Serve static files at configured URLs (via middleware, see [serveStatic](#servestatic))
+- [x] Serve programmable resources at configured URLs (via middleware, see [handleRoutes](#handleroutes))
+- [x] Serve redirect responses at configured URLs (via middleware, see [handleRedirects](#handleredirects))
+- [x] Document `Gemtext` usage
+- [ ] Serve gone responses at configured URLs (via middleware)
+- [ ] Improve `Response` class
+- [ ] -- 'Good enough' point --
+- [ ] *Propose yours by [filing an issue](https://github.com/sergetymo/kaksik/issues/new)*
+
+∎

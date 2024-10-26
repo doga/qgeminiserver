@@ -1,6 +1,6 @@
-import { Application, State } from './Application.ts'
-import { Request } from './Request.ts'
-import { Response } from './Response.ts'
+import { Application, State } from './Application.mts'
+import { Request } from './Request.mts'
+import { Response } from './Response.mts'
 
 export class Context<S extends State> {
   public app: Application<S>

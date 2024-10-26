@@ -1,6 +1,6 @@
-import { Middleware, compose } from './Middleware.ts';
-import { Context } from './Context.ts';
-import { ResponseFailure } from './ResponseFailure.ts';
+import { Middleware, compose } from './Middleware.mts';
+import { Context } from './Context.mts';
+import { ResponseFailure } from './ResponseFailure.mts';
 
 export type Config = Deno.ListenTlsOptions & Deno.TlsCertifiedKeyPem;
 export type ConfigDefaults = Required<Pick<Config, 'hostname' | 'port'>>;

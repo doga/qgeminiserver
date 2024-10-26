@@ -1,7 +1,7 @@
-import { Body } from './Body.ts'
-import { Gemtext } from './Gemtext.ts'
-import { Header } from './Header.ts'
-import { StatusCode } from './StatusCode.ts'
+import { Body } from './Body.mts'
+import { Gemtext } from './Gemtext.mts'
+import { Header } from './Header.mts'
+import { StatusCode } from './StatusCode.mts'
 
 export class Response {
   private _header?: Header

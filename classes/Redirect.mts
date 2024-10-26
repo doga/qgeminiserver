@@ -1,4 +1,4 @@
-import { ResponseRedirect } from './ResponseRedirect.ts'
+import { ResponseRedirect } from './ResponseRedirect.mts'
 
 export class Redirect {
   private readonly matcher: RegExp

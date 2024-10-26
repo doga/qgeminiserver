@@ -1,4 +1,4 @@
-import { Line } from './Line.ts'
+import { Line } from './Line.mts'
 
 export type HeadingLevel = 1 | 2 | 3
 

@@ -1,7 +1,7 @@
-import { extname, lookup } from '../deps.ts'
-import { Response } from './Response.ts'
-import { ResponseOk } from './ResponseOk.ts'
-import { Body } from './Body.ts'
+import { extname, contentType } from '../deps.mts'
+import { Response } from './Response.mts'
+import { ResponseOk } from './ResponseOk.mts'
+import { Body } from './Body.mts'
 
 export const MIME_GEMINI = 'text/gemini'
 export const MIME_DEFAULT = 'text/plain'
@@ -13,9 +13,12 @@ function isGeminiExtension (ext: string): boolean {
 export class File {
   private readonly mime: string
   constructor(private readonly systemPath: string) {
-    isGeminiExtension(extname(systemPath))
-      ? this.mime = MIME_GEMINI
-      : this.mime = lookup(systemPath) || MIME_DEFAULT
+    this.mime = MIME_GEMINI;
+
+    const fileExtension = extname(systemPath);
+    if (!isGeminiExtension(fileExtension)) {
+      this.mime = contentType(fileExtension) || MIME_DEFAULT;
+    }
   }
 
   public async response (): Promise<Response> {

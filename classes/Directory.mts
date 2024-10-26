@@ -1,10 +1,10 @@
-import { Response } from './Response.ts'
-import { File } from './File.ts'
-import { ResponseOk } from './ResponseOk.ts'
-import { Gemtext } from './Gemtext.ts'
-import { LineLink } from './LineLink.ts'
-import { LineHeading } from './LineHeading.ts'
-import { LineText } from './LineText.ts'
+import { Response } from './Response.mts'
+import { File } from './File.mts'
+import { ResponseOk } from './ResponseOk.mts'
+import { Gemtext } from './Gemtext.mts'
+import { LineLink } from './LineLink.mts'
+import { LineHeading } from './LineHeading.mts'
+import { LineText } from './LineText.mts'
 
 function isGeminiIndexFile (name: string): boolean {
   return name === 'index.gmi' || name === 'index.gemini'
