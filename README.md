@@ -8,7 +8,7 @@ A Deno+TypeScript framework for building [Geminispace](https://geminiquickst.art
 
 ### Prerequisites
 
-1. [Install Deno](https://deno.com/)
+1. [Install Deno 2+](https://deno.com/)
 1. Obtain SSL certificates. You can generate self-signed ones using `openssl` command:
 
     ```bash
