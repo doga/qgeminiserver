@@ -240,4 +240,16 @@ await app.start()
 - [ ] -- 'Good enough' point --
 - [ ] *Propose yours by [filing an issue](https://github.com/sergetymo/kaksik/issues/new)*
 
+## Dependencies
+
+[geminispace-jsdoc-server](https://github.com/doga/geminispace-jsdoc-server) depends on this TypeScript module.
+
+```mermaid
+---
+title: Dependencies
+---
+flowchart LR
+GeminispaceJSDocServer[geminispace-jsdoc-server] --imports--> QGeminiServer[qgeminiserver]
+```
+
 ∎
